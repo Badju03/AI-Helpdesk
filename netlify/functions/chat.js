@@ -1,7 +1,7 @@
 const engine = require("./engine");
 
 exports.handler = async (event) => {
-    ...
+    
 };
 
 function startConversation(question) {
