@@ -6,7 +6,15 @@ exports.handler = async (event) => {
 
         const { question } = JSON.parse(event.body);
 
-        const response = engine.startConversation(question);
+        let response;
+
+        const session = require("./sessions").current;
+
+        if (!session) {
+            response = engine.startConversation(question);
+        } else {
+            response = engine.continueConversation(question);
+        }
 
         return {
             statusCode: 200,
@@ -24,5 +32,4 @@ exports.handler = async (event) => {
         };
 
     }
-
 };
