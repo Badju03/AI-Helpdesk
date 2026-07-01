@@ -40,7 +40,11 @@ async function askAI(){
 
     });
 
-    const data=await response.json();
+    const text = await response.text();
+
+console.log("Server response:", text);
+
+const data = JSON.parse(text);
 
     document.getElementById("typing").remove();
 
