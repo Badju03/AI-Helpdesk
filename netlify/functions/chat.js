@@ -1,5 +1,8 @@
-const knowledge = require("./knowledge");
-const sessions = require("./sessions");
+const engine = require("./engine");
+
+exports.handler = async (event) => {
+    ...
+};
 
 function startConversation(question) {
 
