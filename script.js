@@ -57,3 +57,15 @@ const data = JSON.parse(text);
     chat.scrollTop=chat.scrollHeight;
 
 }
+
+document.getElementById("question").addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter" && !event.shiftKey) {
+
+        event.preventDefault();
+
+        askAI();
+
+    }
+
+});
