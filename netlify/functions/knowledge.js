@@ -18,7 +18,12 @@ const knowledge = {
                 id: 1,
 
                 question:
-                    "I can help troubleshoot Outlook.\n\nAre you using:\n\n• Desktop\n• Web",
+                    "I can help troubleshoot Outlook.\n\nAre you using:",
+
+                buttons: [
+                    "Desktop",
+                    "Outlook Web"
+                ],
 
                 answers: {
 
@@ -34,7 +39,12 @@ const knowledge = {
                 id: 2,
 
                 question:
-                    "Can you RECEIVE emails?\n\n• Yes\n• No",
+                    "Can you RECEIVE emails?",
+
+                buttons: [
+                    "Yes",
+                    "No"
+                ],
 
                 answers: {
 
@@ -50,7 +60,12 @@ const knowledge = {
                 id: 3,
 
                 question:
-                    "Can you sign in to Outlook Web?\n\n• Yes\n• No",
+                    "Can you sign in to Outlook Web?",
+
+                buttons: [
+                    "Yes",
+                    "No"
+                ],
 
                 answers: {
 
@@ -66,7 +81,12 @@ const knowledge = {
                 id: 4,
 
                 question:
-                    "Great.\n\nDo you receive an error when sending?\n\n• Yes\n• No",
+                    "Great.\n\nDo you receive an error when sending?",
+
+                buttons: [
+                    "Yes",
+                    "No"
+                ],
 
                 answers: {
 
@@ -99,6 +119,7 @@ const knowledge = {
 
                 diagnosis:
                     "Try creating a new Outlook profile and test again."
+
             }
 
         ]
