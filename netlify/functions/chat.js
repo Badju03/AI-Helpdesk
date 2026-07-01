@@ -6,13 +6,11 @@ exports.handler = async (event) => {
 
         const { question } = JSON.parse(event.body);
 
-        const answer = engine.startConversation(question);
+        const response = engine.startConversation(question);
 
         return {
             statusCode: 200,
-            body: JSON.stringify({
-                answer
-            })
+            body: JSON.stringify(response)
         };
 
     } catch (err) {
@@ -20,7 +18,8 @@ exports.handler = async (event) => {
         return {
             statusCode: 500,
             body: JSON.stringify({
-                answer: err.message
+                reply: err.message,
+                buttons: []
             })
         };
 
