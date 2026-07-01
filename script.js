@@ -1,64 +1,105 @@
-async function askAI(){
+async function askAI(questionFromButton = null) {
 
-    const questionBox=document.getElementById("question");
+    const questionBox = document.getElementById("question");
 
-    const question=questionBox.value.trim();
+    const question = questionFromButton || questionBox.value.trim();
 
-    if(question==="") return;
+    if (question === "") return;
 
-    const chat=document.getElementById("chatWindow");
+    const chat = document.getElementById("chatWindow");
 
-    // User Bubble
-    chat.innerHTML+=`
-        <div class="user-message">
-            ${question}
-        </div>
-    `;
+    // User message
+    const userMessage = document.createElement("div");
+    userMessage.className = "user-message";
+    userMessage.textContent = question;
+    chat.appendChild(userMessage);
 
-    // Typing Bubble
-    chat.innerHTML+=`
-        <div class="bot-message" id="typing">
-            🤖 Typing...
-        </div>
-    `;
+    // Typing indicator
+    const typing = document.createElement("div");
+    typing.className = "bot-message";
+    typing.id = "typing";
+    typing.textContent = "🤖 Typing...";
+    chat.appendChild(typing);
 
-    chat.scrollTop=chat.scrollHeight;
+    chat.scrollTop = chat.scrollHeight;
 
-    questionBox.value="";
+    questionBox.value = "";
 
-    const response=await fetch("/.netlify/functions/chat",{
+    try {
 
-        method:"POST",
+        const response = await fetch("/.netlify/functions/chat", {
 
-        headers:{
-            "Content-Type":"application/json"
-        },
+            method: "POST",
 
-        body:JSON.stringify({
-            question:question
-        })
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    });
+            body: JSON.stringify({
+                question: question
+            })
 
-    const text = await response.text();
+        });
 
-console.log("Server response:", text);
+        const data = await response.json();
 
-const data = JSON.parse(text);
+        document.getElementById("typing").remove();
 
-    document.getElementById("typing").remove();
+        // Bot message
+        const botMessage = document.createElement("div");
+        botMessage.className = "bot-message";
+        botMessage.textContent = "🤖 " + data.reply;
+        chat.appendChild(botMessage);
 
-    chat.innerHTML+=`
-        <div class="bot-message">
-            🤖 ${data.answer}
-        </div>
-    `;
+        // Display buttons if available
+        if (data.buttons && data.buttons.length > 0) {
 
-    chat.scrollTop=chat.scrollHeight;
+            const buttonContainer = document.createElement("div");
+            buttonContainer.className = "button-container";
+
+            data.buttons.forEach(option => {
+
+                const button = document.createElement("button");
+
+                button.className = "chat-option";
+
+                button.textContent = option;
+
+                button.onclick = function () {
+
+                    buttonContainer.remove();
+
+                    askAI(option);
+
+                };
+
+                buttonContainer.appendChild(button);
+
+            });
+
+            chat.appendChild(buttonContainer);
+
+        }
+
+        chat.scrollTop = chat.scrollHeight;
+
+    } catch (error) {
+
+        if (document.getElementById("typing")) {
+            document.getElementById("typing").remove();
+        }
+
+        const botMessage = document.createElement("div");
+        botMessage.className = "bot-message";
+        botMessage.textContent = "🤖 Server error.";
+        chat.appendChild(botMessage);
+
+    }
 
 }
 
-document.getElementById("question").addEventListener("keydown", function(event) {
+// Press Enter to send
+document.getElementById("question").addEventListener("keydown", function (event) {
 
     if (event.key === "Enter" && !event.shiftKey) {
 
