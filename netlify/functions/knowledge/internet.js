@@ -3,11 +3,12 @@ module.exports = {
     keywords: [
 
         "internet",
-        "wifi",
         "network",
+        "wifi",
+        "wi-fi",
         "ethernet",
-        "dns",
-        "vpn"
+        "vpn",
+        "dns"
 
     ],
 
@@ -29,54 +30,77 @@ module.exports = {
 
             answers: {
                 "no internet": 2,
-                "wi-fi not connecting": 10,
-                "slow internet": 20,
-                "vpn": 30,
-                "dns problem": 40,
-                "ip address": 50
+                "wi-fi not connecting": 3,
+                "slow internet": 4,
+                "vpn": 5,
+                "dns problem": 6,
+                "ip address": 7
             }
         },
 
         {
             id: 2,
 
-            diagnosis:
-"Check:\n\n• Network cable or Wi-Fi connection\n• Restart modem/router\n• Verify network adapter\n• Run ipconfig /renew\n• Test another website\n• Check ISP outage"
+            question: "Is this affecting only your computer?",
+
+            buttons: [
+                "Yes",
+                "No"
+            ],
+
+            answers: {
+                "yes": 8,
+                "no": 9
+            }
         },
 
         {
-            id: 10,
+            id: 3,
 
             diagnosis:
-"Check:\n\n• Wi-Fi enabled\n• Airplane Mode OFF\n• Forget and reconnect network\n• Update wireless driver\n• Restart wireless adapter"
+"Try the following:\n\n• Make sure Wi-Fi is enabled\n• Turn Airplane Mode OFF\n• Forget and reconnect to the Wi-Fi\n• Restart the wireless adapter\n• Update the Wi-Fi driver"
         },
 
         {
-            id: 20,
+            id: 4,
 
             diagnosis:
-"Check:\n\n• Network usage\n• Speed test\n• Background downloads\n• Switch to Ethernet\n• Restart router"
+"Check:\n\n• Run a speed test\n• Close large downloads\n• Check Task Manager for bandwidth usage\n• Restart the modem/router\n• Test using a wired connection"
         },
 
         {
-            id: 30,
+            id: 5,
 
             diagnosis:
-"Verify:\n\n• VPN credentials\n• MFA approval\n• Internet connection\n• VPN server status\n• Reconnect VPN client"
+"Verify:\n\n• Internet connection\n• VPN username/password\n• MFA approval\n• VPN server availability\n• Reconnect the VPN client"
         },
 
         {
-            id: 40,
+            id: 6,
 
             diagnosis:
-"Run:\n\n• ipconfig /flushdns\n• nslookup google.com\n• Change DNS to 8.8.8.8 or 1.1.1.1\n• Restart DNS Client service"
+"Run these commands:\n\nipconfig /flushdns\nipconfig /registerdns\nnslookup google.com\n\nIf DNS still fails, test using 8.8.8.8 or 1.1.1.1."
         },
 
         {
-            id: 50,
+            id: 7,
 
             diagnosis:
-"Run:\n\n• ipconfig /all\n• Verify DHCP enabled\n• Release/Renew IP\n• Check for IP conflicts"
+"Run:\n\nipconfig /all\n\nVerify:\n\n• DHCP Enabled\n• Valid IPv4 Address\n• Default Gateway\n• DNS Servers\n\nIf needed, run:\nipconfig /release\nipconfig /renew"
+        },
+
+        {
+            id: 8,
+
+            diagnosis:
+"This appears to be a local computer issue.\n\nCheck:\n\n• Network adapter status\n• Driver installation\n• Disable/Enable adapter\n• Windows Network Troubleshooter\n• Restart the computer"
+        },
+
+        {
+            id: 9,
+
+            diagnosis:
+"This appears to affect multiple devices.\n\nCheck:\n\n• Modem/router power\n• ISP outage\n• WAN status\n• Restart networking equipment\n• Contact your Internet Service Provider if the outage continues."
         }
 
     ]
