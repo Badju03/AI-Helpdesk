@@ -3,9 +3,7 @@ module.exports = {
     keywords: [
 
         "windows",
-        "blue screen",
-        "bsod",
-        "startup"
+       
 
     ],
 
