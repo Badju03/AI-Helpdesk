@@ -7,7 +7,7 @@ module.exports = {
         "signin",
         "sign in",
         "cannot login",
-        "forgot password"
+        
 
     ],
 
