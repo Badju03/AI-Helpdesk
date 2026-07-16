@@ -48,7 +48,8 @@ async function askAI(questionFromButton = null) {
         // Bot message
         const botMessage = document.createElement("div");
         botMessage.className = "bot-message";
-        botMessage.textContent = "🤖 " + data.reply;
+        botMessage.innerHTML =
+    "🤖 " + data.reply.replace(/\n/g, "<br>");
         chat.appendChild(botMessage);
 
         // Display buttons if available
