@@ -1,4 +1,6 @@
 const knowledge = require("./knowledge");
+console.log("Knowledge object:");
+console.log(JSON.stringify(knowledge, null, 2));
 const sessions = require("./sessions");
 
 function startConversation(question) {
