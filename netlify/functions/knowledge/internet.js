@@ -7,7 +7,6 @@ module.exports = {
         "wifi",
         "wi-fi",
         "ethernet",
-        "vpn",
         "dns"
 
     ],
