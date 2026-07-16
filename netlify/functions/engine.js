@@ -1,128 +1,53 @@
 const knowledge = require("./knowledge");
 const sessions = require("./sessions");
 
-// Creates a standard response object
-function createResponse(step) {
-
-    if (step.diagnosis) {
-        return {
-            reply: step.diagnosis,
-            buttons: []
-        };
-    }
-
-    return {
-        reply: step.question,
-        buttons: step.buttons || []
-    };
-
-}
-
-// Starts a new conversation
 function startConversation(question) {
+
+    console.log("Knowledge object:");
+    console.log(knowledge);
 
     const lower = question.toLowerCase();
 
     for (const category in knowledge) {
 
+        console.log("Category:", category);
+
         const item = knowledge[category];
 
+        console.log("Item:", item);
+
+        console.log("Keywords:", item.keywords);
+
+        if (!Array.isArray(item.keywords)) {
+            throw new Error(`Category '${category}' has no keywords array.`);
+        }
+
         const found = item.keywords.some(keyword =>
-            lower.includes(keyword)
+            lower.includes(keyword.toLowerCase())
         );
 
         if (found) {
 
             sessions.current = {
-                category: category,
+                category,
                 step: 1
             };
 
             const firstStep = item.steps.find(step => step.id === 1);
 
-            return createResponse(firstStep);
-
+            return {
+                reply: firstStep.question,
+                buttons: firstStep.buttons || []
+            };
         }
-
     }
 
     return {
-        reply: "Sorry, I don't recognize that issue yet. Try Outlook or Email.",
+        reply: "Sorry, I don't recognize that issue yet.",
         buttons: []
     };
-
-}
-
-// Continues an existing conversation
-function continueConversation(answer) {
-
-    if (!sessions.current) {
-        return startConversation(answer);
-    }
-
-    const category = knowledge[sessions.current.category];
-
-    if (!category) {
-
-        sessions.current = null;
-
-        return {
-            reply: "Session expired. Please start again.",
-            buttons: []
-        };
-
-    }
-
-    const currentStep = category.steps.find(
-        step => step.id === sessions.current.step
-    );
-
-    if (!currentStep) {
-
-        sessions.current = null;
-
-        return {
-            reply: "Conversation error. Please start again.",
-            buttons: []
-        };
-
-    }
-
-    const nextStepId = currentStep.answers?.[answer.toLowerCase()];
-
-    if (!nextStepId) {
-
-        return {
-            reply: "Please choose one of the available options.",
-            buttons: currentStep.buttons || []
-        };
-
-    }
-
-    const nextStep = category.steps.find(
-        step => step.id === nextStepId
-    );
-
-    if (!nextStep) {
-
-        sessions.current = null;
-
-        return {
-            reply: "Troubleshooting step not found.",
-            buttons: []
-        };
-
-    }
-
-    sessions.current.step = nextStepId;
-
-    return createResponse(nextStep);
-
 }
 
 module.exports = {
-
-    startConversation,
-    continueConversation
-
+    startConversation
 };
