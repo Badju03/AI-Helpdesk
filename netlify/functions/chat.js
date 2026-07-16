@@ -4,17 +4,13 @@ exports.handler = async (event) => {
 
     try {
 
+        if (!event.body) {
+            throw new Error("Request body is empty.");
+        }
+
         const { question } = JSON.parse(event.body);
 
-        let response;
-
-        const session = require("./sessions").current;
-
-        if (!session) {
-            response = engine.startConversation(question);
-        } else {
-            response = engine.continueConversation(question);
-        }
+        const response = engine.handleMessage(question);
 
         return {
             statusCode: 200,
@@ -32,4 +28,5 @@ exports.handler = async (event) => {
         };
 
     }
+
 };
