@@ -31,8 +31,8 @@ function isNewTopic(message) {
             continue;
         }
 
-        if (item.keywords.some(keyword => lower.includes(keyword.toLowerCase()))) {
-            return category;
+        if (item.keywords.some(keyword => lower === keyword.toLowerCase())) {
+    return category;
         }
 
     }
