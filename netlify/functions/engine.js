@@ -164,13 +164,23 @@ return createResponse(nextStep);
 // Main entry point
 function handleMessage(message) {
 
+    // If a conversation is already active,
+    // treat the message as an answer.
+    if (sessions.current) {
+        return continueConversation(message);
+    }
+
+    // Otherwise check if the user is starting a new topic.
     const category = isNewTopic(message);
 
     if (category) {
         return startConversation(category);
     }
 
-    return continueConversation(message);
+    return {
+        reply: "Please start by typing one of the following:\n\n• Outlook\n• Windows\n• Printer\n• Internet\n• Password",
+        buttons: []
+    };
 
 }
 
