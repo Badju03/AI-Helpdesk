@@ -83,8 +83,8 @@ function continueConversation(answer) {
     if (!sessions.current) {
 
         return {
-            reply: "Please start by typing Outlook, Windows, Printer or Internet.",
-            buttons: []
+            reply: "Please start by typing one of the following:\n\n• Outlook\n• Windows\n• Printer\n• Internet\n• Password",
+    buttons: []
         };
 
     }
