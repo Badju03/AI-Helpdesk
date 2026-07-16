@@ -1,27 +1,35 @@
 const knowledge = require("./knowledge");
-console.log("Knowledge object:");
-console.log(JSON.stringify(knowledge, null, 2));
 const sessions = require("./sessions");
 
-function startConversation(question) {
+// Creates a standard response object
+function createResponse(step) {
 
-    console.log("Knowledge object:");
-    console.log(knowledge);
+    if (step.diagnosis) {
+        return {
+            reply: step.diagnosis,
+            buttons: []
+        };
+    }
+
+    return {
+        reply: step.question,
+        buttons: step.buttons || []
+    };
+
+}
+
+// Starts a new conversation
+function startConversation(question) {
 
     const lower = question.toLowerCase();
 
     for (const category in knowledge) {
 
-        console.log("Category:", category);
-
         const item = knowledge[category];
 
-        console.log("Item:", item);
-
-        console.log("Keywords:", item.keywords);
-
-        if (!Array.isArray(item.keywords)) {
-            throw new Error(`Category '${category}' has no keywords array.`);
+        // Skip invalid modules
+        if (!item || !Array.isArray(item.keywords)) {
+            continue;
         }
 
         const found = item.keywords.some(keyword =>
@@ -31,25 +39,102 @@ function startConversation(question) {
         if (found) {
 
             sessions.current = {
-                category,
+                category: category,
                 step: 1
             };
 
             const firstStep = item.steps.find(step => step.id === 1);
 
-            return {
-                reply: firstStep.question,
-                buttons: firstStep.buttons || []
-            };
+            if (!firstStep) {
+                return {
+                    reply: "Knowledge base error: Missing first step.",
+                    buttons: []
+                };
+            }
+
+            return createResponse(firstStep);
+
         }
+
     }
 
     return {
-        reply: "Sorry, I don't recognize that issue yet.",
+        reply: "Sorry, I don't recognize that issue yet. Try Outlook, Windows, Printer or Internet.",
         buttons: []
     };
+
+}
+
+// Continue an existing conversation
+function continueConversation(answer) {
+
+    if (!sessions.current) {
+        return startConversation(answer);
+    }
+
+    const category = knowledge[sessions.current.category];
+
+    if (!category) {
+
+        sessions.current = null;
+
+        return {
+            reply: "Session expired. Please start again.",
+            buttons: []
+        };
+
+    }
+
+    const currentStep = category.steps.find(
+        step => step.id === sessions.current.step
+    );
+
+    if (!currentStep) {
+
+        sessions.current = null;
+
+        return {
+            reply: "Conversation error. Please start again.",
+            buttons: []
+        };
+
+    }
+
+    const nextStepId = currentStep.answers?.[answer.toLowerCase()];
+
+    if (!nextStepId) {
+
+        return {
+            reply: "Please choose one of the available options.",
+            buttons: currentStep.buttons || []
+        };
+
+    }
+
+    const nextStep = category.steps.find(
+        step => step.id === nextStepId
+    );
+
+    if (!nextStep) {
+
+        sessions.current = null;
+
+        return {
+            reply: "Troubleshooting step not found.",
+            buttons: []
+        };
+
+    }
+
+    sessions.current.step = nextStepId;
+
+    return createResponse(nextStep);
+
 }
 
 module.exports = {
-    startConversation
+
+    startConversation,
+    continueConversation
+
 };
