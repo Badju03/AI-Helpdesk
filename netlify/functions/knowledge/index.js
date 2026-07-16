@@ -6,6 +6,8 @@ module.exports = {
 
     printer: require("./printer"),
 
-    internet: require("./internet")
+    internet: require("./internet"),
+
+    password: require("./password")
 
 };
