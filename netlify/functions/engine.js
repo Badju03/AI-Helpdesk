@@ -18,58 +18,75 @@ function createResponse(step) {
 
 }
 
-// Starts a new conversation
-function startConversation(question) {
+// Check if the user's message starts a new topic
+function isNewTopic(message) {
 
-    const lower = question.toLowerCase();
+    const lower = message.toLowerCase();
 
     for (const category in knowledge) {
 
         const item = knowledge[category];
 
-        // Skip invalid modules
         if (!item || !Array.isArray(item.keywords)) {
             continue;
         }
 
-        const found = item.keywords.some(keyword =>
-            lower.includes(keyword.toLowerCase())
-        );
-
-        if (found) {
-
-            sessions.current = {
-                category: category,
-                step: 1
-            };
-
-            const firstStep = item.steps.find(step => step.id === 1);
-
-            if (!firstStep) {
-                return {
-                    reply: "Knowledge base error: Missing first step.",
-                    buttons: []
-                };
-            }
-
-            return createResponse(firstStep);
-
+        if (item.keywords.some(keyword => lower.includes(keyword.toLowerCase()))) {
+            return category;
         }
 
     }
 
-    return {
-        reply: "Sorry, I don't recognize that issue yet. Try Outlook, Windows, Printer or Internet.",
-        buttons: []
-    };
+    return null;
 
 }
 
-// Continue an existing conversation
+// Start a conversation
+function startConversation(category) {
+
+    const item = knowledge[category];
+
+    if (!item) {
+
+        return {
+            reply: "Knowledge base not found.",
+            buttons: []
+        };
+
+    }
+
+    sessions.current = {
+
+        category: category,
+        step: 1
+
+    };
+
+    const firstStep = item.steps.find(step => step.id === 1);
+
+    if (!firstStep) {
+
+        return {
+            reply: "Conversation is missing step 1.",
+            buttons: []
+        };
+
+    }
+
+    return createResponse(firstStep);
+
+}
+
+// Continue existing conversation
 function continueConversation(answer) {
 
     if (!sessions.current) {
-        return startConversation(answer);
+
+        return {
+            reply: "Please start by typing Outlook, Windows, Printer or Internet.",
+            buttons: []
+        };
+
     }
 
     const category = knowledge[sessions.current.category];
@@ -79,7 +96,7 @@ function continueConversation(answer) {
         sessions.current = null;
 
         return {
-            reply: "Session expired. Please start again.",
+            reply: "Session expired.",
             buttons: []
         };
 
@@ -94,7 +111,7 @@ function continueConversation(answer) {
         sessions.current = null;
 
         return {
-            reply: "Conversation error. Please start again.",
+            reply: "Conversation error.",
             buttons: []
         };
 
@@ -126,14 +143,28 @@ function continueConversation(answer) {
 
     }
 
-    sessions.current.step = nextStepId;
+    sessions.current.step = nextStep.id;
 
     return createResponse(nextStep);
 
 }
 
+// Main entry point
+function handleMessage(message) {
+
+    const category = isNewTopic(message);
+
+    if (category) {
+        return startConversation(category);
+    }
+
+    return continueConversation(message);
+
+}
+
 module.exports = {
 
+    handleMessage,
     startConversation,
     continueConversation
 
