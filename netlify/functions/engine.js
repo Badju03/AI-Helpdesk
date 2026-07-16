@@ -145,7 +145,19 @@ function continueConversation(answer) {
 
     sessions.current.step = nextStep.id;
 
-    return createResponse(nextStep);
+// If this is the final diagnosis, end the conversation
+if (nextStep.diagnosis) {
+
+    const response = createResponse(nextStep);
+
+    sessions.current = null;
+
+    return response;
+
+}
+
+// Otherwise continue the conversation
+return createResponse(nextStep);
 
 }
 
