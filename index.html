@@ -2,45 +2,95 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>AI IT Helpdesk Assistant</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<div class="chat-container">
+    <div class="container">
 
-    <div class="header">
-        🤖 AI IT Helpdesk Assistant
-    </div>
+        <header>
 
-    <div id="chatWindow" class="chat-window">
+            🤖 AI IT Helpdesk Assistant
 
-        <div class="bot-message">
-            Hello! 👋 I'm your IT Helpdesk Assistant.
-            Ask me any IT support question.
+        </header>
+
+        <div id="chatWindow">
+
+            <div class="bot-message">
+
+                <strong>👋 Welcome to the AI IT Helpdesk Assistant</strong>
+
+                <br><br>
+
+                I can help troubleshoot:
+
+                <br><br>
+
+                ✔ Outlook & Microsoft 365<br>
+                ✔ Windows<br>
+                ✔ Internet & Network<br>
+                ✔ Printers<br>
+                ✔ Password & Login Issues
+
+                <br><br>
+
+                <strong>Select a category below to begin.</strong>
+
+            </div>
+
+            <div class="button-container">
+
+                <button class="chat-option" onclick="askAI('Outlook')">
+                    📧 Outlook
+                </button>
+
+                <button class="chat-option" onclick="askAI('Windows')">
+                    🖥 Windows
+                </button>
+
+                <button class="chat-option" onclick="askAI('Internet')">
+                    🌐 Internet
+                </button>
+
+                <button class="chat-option" onclick="askAI('Printer')">
+                    🖨 Printer
+                </button>
+
+                <button class="chat-option" onclick="askAI('Password')">
+                    🔑 Password
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="input-area">
+
+            <textarea
+                id="question"
+                placeholder="Type your IT question..."
+            ></textarea>
+
+            <button onclick="askAI()">
+
+                Send ➜
+
+            </button>
+
         </div>
 
     </div>
 
-    <div class="input-area">
-
-        <textarea
-            id="question"
-            placeholder="Type your IT question..."
-        ></textarea>
-
-        <button onclick="askAI()">
-            Send ➜
-        </button>
-
-    </div>
-
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 
