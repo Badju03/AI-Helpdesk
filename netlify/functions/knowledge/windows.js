@@ -2,8 +2,7 @@ module.exports = {
 
     keywords: [
 
-        "windows",
-       
+        "windows"
 
     ],
 
