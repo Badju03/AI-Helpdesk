@@ -15,80 +15,160 @@
 
 <body>
 
-    <div class="container">
+    <div class="app-container">
 
-        <header>
+        <!-- HEADER -->
 
-            🤖 AI IT Helpdesk Assistant
+        <header class="app-header">
+
+            <div class="header-left">
+
+                <div class="ai-icon">
+                    🤖
+                </div>
+
+                <div>
+
+                    <h1>AI IT Helpdesk Assistant</h1>
+
+                    <p>Intelligent IT Troubleshooting</p>
+
+                </div>
+
+            </div>
+
+            <div class="online-status">
+
+                <span class="status-dot"></span>
+
+                Online
+
+            </div>
 
         </header>
 
-        <div id="chatWindow">
 
-            <div class="bot-message">
+        <!-- CHAT AREA -->
 
-                <strong>👋 Welcome to the AI IT Helpdesk Assistant</strong>
+        <main id="chatWindow">
 
-                <br><br>
+            <!-- Welcome -->
 
-                I can help troubleshoot:
+            <div class="welcome-message">
 
-                <br><br>
+                <div class="welcome-icon">
+                    👋
+                </div>
 
-                ✔ Outlook & Microsoft 365<br>
-                ✔ Windows<br>
-                ✔ Internet & Network<br>
-                ✔ Printers<br>
-                ✔ Password & Login Issues
+                <h2>Welcome to your AI IT Helpdesk</h2>
 
-                <br><br>
-
-                <strong>Select a category below to begin.</strong>
+                <p>
+                    Get guided troubleshooting for common IT issues.
+                </p>
 
             </div>
+
+
+            <!-- CATEGORY BUTTONS -->
 
             <div class="button-container">
 
-                <button class="chat-option" onclick="askAI('Outlook')">
-                    📧 Outlook
+                <button
+                    class="chat-option category-button"
+                    onclick="askAI('Outlook')">
+
+                    <span class="category-icon">📧</span>
+
+                    <span>
+                        <strong>Outlook</strong>
+                        <small>Email & Microsoft 365</small>
+                    </span>
+
                 </button>
 
-                <button class="chat-option" onclick="askAI('Windows')">
-                    🖥 Windows
+
+                <button
+                    class="chat-option category-button"
+                    onclick="askAI('Windows')">
+
+                    <span class="category-icon">🖥️</span>
+
+                    <span>
+                        <strong>Windows</strong>
+                        <small>Desktop & OS issues</small>
+                    </span>
+
                 </button>
 
-                <button class="chat-option" onclick="askAI('Internet')">
-                    🌐 Internet
+
+                <button
+                    class="chat-option category-button"
+                    onclick="askAI('Internet')">
+
+                    <span class="category-icon">🌐</span>
+
+                    <span>
+                        <strong>Internet</strong>
+                        <small>Network & Wi-Fi</small>
+                    </span>
+
                 </button>
 
-                <button class="chat-option" onclick="askAI('Printer')">
-                    🖨 Printer
+
+                <button
+                    class="chat-option category-button"
+                    onclick="askAI('Printer')">
+
+                    <span class="category-icon">🖨️</span>
+
+                    <span>
+                        <strong>Printer</strong>
+                        <small>Printing problems</small>
+                    </span>
+
                 </button>
 
-                <button class="chat-option" onclick="askAI('Password')">
-                    🔑 Password
+
+                <button
+                    class="chat-option category-button"
+                    onclick="askAI('Password')">
+
+                    <span class="category-icon">🔑</span>
+
+                    <span>
+                        <strong>Password</strong>
+                        <small>Login & account access</small>
+                    </span>
+
                 </button>
 
             </div>
 
-        </div>
+        </main>
+
+
+        <!-- INPUT -->
 
         <div class="input-area">
 
             <textarea
                 id="question"
-                placeholder="Type your IT question..."
+                placeholder="Ask your IT question..."
             ></textarea>
 
-            <button onclick="askAI()">
+            <button
+                class="send-button"
+                onclick="askAI()">
 
-                Send ➜
+                Send
+                <span>➜</span>
 
             </button>
 
         </div>
 
     </div>
+
 
     <script src="script.js"></script>
 
